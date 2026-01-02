@@ -3,33 +3,20 @@ public:
     string addStrings(string num1, string num2) {
         int i = num1.length() - 1;
         int j = num2.length() - 1;
-        string result = "";
+        string res = "";
         int carry = 0; // 1
-        while (i >= 0 || j >= 0 || carry != 0) {
-            int sum_of_two = 0;
-            if (j < 0 && i >= 0) {
-                sum_of_two = (num1[i] - '0') + carry;
-            } else if (i < 0 && j >= 0) {
-                sum_of_two = (num2[j] - '0') + carry;
-            } else if (i < 0 && j < 0 && carry != 0) {
-                sum_of_two = carry;
-            } else {
-                sum_of_two = (num1[i] - '0') + (num2[j] - '0') + carry;
+        while (i >= 0 || j >= 0 || carry) {
+            int sum = carry;
+            if (i >= 0) {
+                sum = sum + num1[i--] - '0'; // 1
             }
-            carry = 0; // Because we used it
-            i--;
-            j--;
-
-            if (sum_of_two > 9) {
-                // Not to send complete number
-                // Ones place => will be added
-                // Twos place => carried
-                carry = sum_of_two / 10;
-                result = char(((sum_of_two) % 10) + '0') + result;
-                continue;
+            if (j >= 0) {
+                sum = sum + num2[j--] - '0';
             }
-            result = char(sum_of_two + '0') + result;
+            res.push_back((sum % 10) + '0');
+            carry = sum / 10;
         }
-        return result;
+        reverse(res.begin(), res.end());
+        return res;
     }
 };
